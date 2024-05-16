@@ -1,29 +1,32 @@
 import sys
-import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from engine import parse_file, truth_table_method
 
-from src.engine import extract_propositions, check_entailment
-from src.parser import parse_input
-
-
-def main(file_path, method):
-    # Parse the input file to get the knowledge base and the query
-    kb, query = parse_input(file_path)
-    propositions = extract_propositions(kb)
-
-    if method == 'TT':
-        is_entailed, model_count = check_entailment(kb, query, propositions)
-        if is_entailed:
-            print(f"YES: {model_count}")
+# Main function to handle command-line arguments and execute the appropriate method
+def main():
+    if len(sys.argv) < 3:
+        print("Usage: python3 main.py <filename> <method>")
+        sys.exit(1)
+    
+    filename = sys.argv[1]
+    method = sys.argv[2]
+    kb, query = parse_file(filename)
+    
+    print("Knowledge Base:", kb)
+    print("Query:", query)
+    
+    if method == "TT":
+        result, details = truth_table_method(kb, query)
+        
+        print("Result:", result)
+        print("Details:", details)
+        
+        if result:
+            print(f"YES: {details}")
         else:
             print("NO")
-
-# Note: Additional cases for FC and BC will be added later
+    else:
+        print("Invalid method")
+        sys.exit(1)
 
 if __name__ == "__main__":
-    if len(sys.argv) != 3:
-        print("Usage: python main.py <filename> <method>")
-    else:
-        file_path = sys.argv[1]
-        method = sys.argv[2]
-        main(file_path, method)
+    main()

@@ -1,6 +1,5 @@
-import sys
-from itertools import product
 import re
+from itertools import product
 
 # Function to parse the input file and extract the knowledge base (KB) and query
 def parse_file(filename):
@@ -75,26 +74,3 @@ def truth_table_method(kb, query):
         print(f"Model: {model}, Query {query} is {query_result}")
     
     return query_true, len(valid_models)
-
-# Main function to handle command-line arguments and execute the appropriate method
-if __name__ == "__main__":
-    filename = sys.argv[1]
-    method = sys.argv[2]
-    kb, query = parse_file(filename)
-    
-    print("Knowledge Base:", kb)
-    print("Query:", query)
-    
-    if method == "TT":
-        result, details = truth_table_method(kb, query)
-        
-        print("Result:", result)
-        print("Details:", details)
-        
-        if result:
-            print(f"YES: {details}")
-        else:
-            print("NO")
-    else:
-        print("Invalid method")
-        sys.exit(1)

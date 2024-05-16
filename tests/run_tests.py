@@ -8,11 +8,12 @@ test_cases = [
     ("test5.txt", "YES: 1"),
     ("test6.txt", "YES: 1"),
     ("test7.txt", "YES: 1"),
-    ("test8.txt", "YES: 1")
+    ("test8.txt", "YES: 1"),
+    # ("test9.txt", "NO") # most comprehensive test case involving 392 details
 ]
 
 for test_file, expected_output in test_cases:
-    result = subprocess.run(["python3", "../engine.py", test_file, "TT"], capture_output=True, text=True)
+    result = subprocess.run(["python3", "../main.py", test_file, "TT"], capture_output=True, text=True)
 
     output = result.stdout.strip()
     test = output.split("\n")[-1]
