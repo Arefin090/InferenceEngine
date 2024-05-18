@@ -3,26 +3,26 @@ import os
 from collections import defaultdict
 
 def parse_kb_file(file_path):  # Parses the knowledge base file
-    kb = PropDefiniteKB()  # Create instance of PropDefiniteKB
-    query = None  # Initialize Query with None to store any queries found in the file
+    kb = PropDefiniteKB()  # Creates instance of PropDefiniteKB
+    query = None  # Initializes Query with None to store any queries found in the file
     try:
         with open(file_path, 'r') as file:  # Opens the file in read mode
-            mode = None  # Initialize mode to None which will be used to determine the current section of the file tell or ask
-            for line in file:  # Iterate through each line in the file
+            mode = None  # Initializes mode to None which will be used to determine the current section of the file tell or ask
+            for line in file:  # Iterates through each line in the file
                 line = line.strip()  # Strips the whitespace from the start and end of the line
                 if 'TELL' in line:
-                    mode = 'tell'  # Set mode to 'tell' when the line contains tell
+                    mode = 'tell'  # Set mode to tell when the line contains tell
                     continue  # Skips to the next iteration
                 elif 'ASK' in line:
-                    mode = 'ask'  # Sets mode to 'ask' when the line contains ask
+                    mode = 'ask'  # Sets mode to ask when the line contains ask
                     continue  # Skips the line with ASK
 
                 if mode == 'tell' and line:
                     instructions = line.split(';')  # Splits the line into separate instructions at each semicolon
                     for instruction in instructions:
-                        if instruction.strip():  # Ensure the instruction is not empty
-                            kb.tell(instruction.strip())  # Add the instruction to the knowledge base
-                elif mode == 'ask' and line:  # Store the line as a query if in 'ask' mode and the line is not empty
+                        if instruction.strip():  # Ensure instruction is not empty
+                            kb.tell(instruction.strip())  # Add the instruction to the KB
+                elif mode == 'ask' and line:  # Store the line as a query if in ask mode and the line is not empty
                     query = line.strip()  # Directly store the query line
     except IOError:
         print(f"Error opening or reading the file: {file_path}")  # Error message
@@ -47,8 +47,8 @@ class KB:  # Base Class for KB
 
 class PropDefiniteKB(KB):  # Subclass of KB which will handle propositional definite kb
     def __init__(self):
-        super().__init__()  # Call the initializer of the base class
-        self.inferred = set()  # Initialize the inferred facts set as an instance variable
+        super().__init__()  # Calls the initializer of the base class
+        self.inferred = set()  # Initializes the inferred facts set as an instance variable
         self.method = None  # Specifies the chaining method
         self.derived_order = []  # List the order of the derivations
         self.initial_facts = set() # Set to track initial facts
@@ -57,7 +57,7 @@ class PropDefiniteKB(KB):  # Subclass of KB which will handle propositional defi
         if method in ["BC", "FC"]:
             self.method = method
         else:
-            raise ValueError("Unsupported Method specified")
+            raise ValueError("Unsupported Method specified") # Validation
 
     def ask(self, query):
         if self.method == "BC":
@@ -65,7 +65,7 @@ class PropDefiniteKB(KB):  # Subclass of KB which will handle propositional defi
         elif self.method == "FC":
             return query in self.inferred  # Check the already inferred facts
         else:
-            raise ValueError("Unsupported method specified")
+            raise ValueError("Unsupported method specified") # Validation
 
     def tell(self, sentence):  # Parses and stores rules and facts from the sentence
         if '=>' in sentence:
