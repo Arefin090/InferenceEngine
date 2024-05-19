@@ -27,9 +27,7 @@ def main():
             print(f"YES: {details}")
         else:
             print("NO")
-    else:
-        print("Invalid method")
-        sys.exit(1)
+
     elif method == "FC":
         kb.forward_chain(query) # Do forward chaining to infer facts
         print(f"YES: {', '.join(kb.derived_order)}" if query in kb.inferred else "NO")
