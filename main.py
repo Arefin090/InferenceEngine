@@ -1,5 +1,8 @@
 import sys
 from engine import parse_file, truth_table_method
+from kbclass import PropDefiniteKB
+from backward_chaining import backward_chain
+from forward_chaining import forward_chain
 
 # Main function to handle command-line arguments and execute the appropriate method
 def main():
@@ -27,6 +30,16 @@ def main():
     else:
         print("Invalid method")
         sys.exit(1)
+    elif method == "FC":
+        kb.forward_chain(query) # Do forward chaining to infer facts
+        print(f"YES: {', '.join(kb.derived_order)}" if query in kb.inferred else "NO")
+    elif method == "BC":
+        if kb.ask(query):
+            print(f"YES: {', '.join(kb.derived_order)}")
+        else:
+            print("NO")
+    else:
+        print(f"Unsupported Method: {method}") # Validation
 
 if __name__ == "__main__":
     main()
