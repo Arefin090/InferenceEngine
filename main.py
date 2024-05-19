@@ -42,4 +42,11 @@ def main():
         print(f"Unsupported Method: {method}") # Validation
 
 if __name__ == "__main__":
-    main()
+    if len(sys.argv) != 3:
+        print("Usage: Python <script.py> <filename> <method>") # validation
+    else:
+        filename = sys.argv[1]
+        method = sys.argv[1]
+        file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), filename) # absolute file pathing
+        main(file_path, method)
+
