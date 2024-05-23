@@ -18,6 +18,7 @@ class TestKnowledgeBase(unittest.TestCase):
             ("test_cases/test6.txt", "YES: 1"),
             ("test_cases/test7.txt", "YES: 1"),
             ("test_cases/test8.txt", "YES: 1"),
+            
         ]
         for test_file, expected_output in test_cases:
             with self.subTest(test_file=test_file, expected_output=expected_output):

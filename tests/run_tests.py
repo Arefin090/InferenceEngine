@@ -9,6 +9,8 @@ test_cases = [
     ("test6.txt", "YES: 1"),
     ("test7.txt", "YES: 1"),
     ("test8.txt", "YES: 1"),
+    # ("test_cases/test9.txt", "NO"),
+    ("test10.txt", "NO")
     # ("test9.txt", "NO") # most comprehensive test case involving 392 details
 ]
 
