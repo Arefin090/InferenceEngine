@@ -5,6 +5,7 @@ from forward_chaining import forward_chain
 from backward_chaining import backward_chain
 from kbclass import PropDefiniteKB 
 
+from research.resolution import resolution_method
 
 # Main function to handle command-line arguments and execute the appropriate method
 def main():
@@ -32,6 +33,13 @@ def main():
         
         if result:
             print(f"YES: {details}")
+        else:
+            print("NO")
+    elif method == "RES":
+        result, steps = resolution_method(kb_sentences, query)
+        print(f"Resolution Method: Query {query} is {'entailed' if result else 'not entailed'} by the KB. Number of steps: {steps}")
+        if result:
+            print("YES")
         else:
             print("NO")
     else:
