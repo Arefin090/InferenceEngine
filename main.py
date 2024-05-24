@@ -1,11 +1,10 @@
 import sys
-import os
 from engine import parse_file, truth_table_method
 from forward_chaining import forward_chain
 from backward_chaining import backward_chain
-from kbclass import PropDefiniteKB 
+from kbclass import PropDefiniteKB, KB
 
-from research.resolution import resolution_method
+from research.resolution import pl_resolution, to_cnf, conjuncts
 
 # Main function to handle command-line arguments and execute the appropriate method
 def main():
@@ -36,8 +35,14 @@ def main():
         else:
             print("NO")
     elif method == "RES":
-        result, steps = resolution_method(kb_sentences, query)
-        print(f"Resolution Method: Query {query} is {'entailed' if result else 'not entailed'} by the KB. Number of steps: {steps}")
+        class PropKB(KB):
+            def tell(self, sentence):
+                self.clauses.extend(conjuncts(to_cnf(sentence)))
+        kb = PropKB()
+        for sentence in kb_sentences:
+            kb.tell(sentence)
+        result = pl_resolution(kb, query)
+        print(f"Resolution Method: Query {query} is {'entailed' if result else 'not entailed'} by the KB.")
         if result:
             print("YES")
         else:
