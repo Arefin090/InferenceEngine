@@ -21,7 +21,7 @@ def expr(s):
     s = s.replace(' ', '')
     if s.isalnum():
         return Expr(s)
-    s = re.sub(r'([()~&|])', r' \1 ', s)
+    s = re.sub(r'([()~&|<=>])', r' \1 ', s)
     tokens = s.split()
     return parse_expr(tokens)
 
@@ -126,9 +126,14 @@ def dissociate(op, args):
 def to_cnf(s):
     """Convert a propositional logical sentence to conjunctive normal form."""
     s = expr(s)
+    print(f"Expression: {s}")
     s = eliminate_implications(s)
+    print(f"After eliminating implications: {s}")
     s = move_not_inwards(s)
-    return distribute_and_over_or(s)
+    print(f"After moving NOT inwards: {s}")
+    s = distribute_and_over_or(s)
+    print(f"CNF: {s}")
+    return s
 
 def parse_clauses(knowledge_base):
     """Parse the knowledge base into a list of clauses."""
@@ -191,3 +196,4 @@ def resolution_method(kb_sentences, query):
             print("\nNo new clauses added. The query is not entailed by the KB.")
             return False, steps
         clauses.extend(map(set, new))
+
