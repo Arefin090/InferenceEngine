@@ -30,7 +30,7 @@ def transform_sentence(sentence, model):
         sentence = re.sub(r'\b{}\b'.format(symbol), str(value), sentence)
     sentence = sentence.replace('~', ' not ')
     sentence = sentence.replace('&', ' and ')
-    sentence = sentence.replace('||', ' or ')
+    sentence = sentence.replace('|', ' or ')
     sentence = re.sub(r'(\w+)\s*=>\s*([\w\s\(\)&|~]+)', r'(not \1 or \2)', sentence)
     sentence = re.sub(r'(\w+)\s*<=>\s*([\w\s\(\)&|~]+)', r'(\1 == \2)', sentence)
     sentence = re.sub(r'(\([\w\s\(\)&|~]+\))\s*=>\s*([\w\s\(\)&|~]+)', r'(not \1 or \2)', sentence)
@@ -74,3 +74,26 @@ def truth_table_method(kb, query):
         print(f"Model: {model}, Query {query} is {query_result}")
     
     return query_true, len(valid_models)
+
+if __name__ == "__main__":
+    import sys
+    filename = sys.argv[1]
+    method = sys.argv[2]
+    kb, query = parse_file(filename)
+    
+    print("Knowledge Base:", kb)
+    print("Query:", query)
+    
+    if method == "TT":
+        result, details = truth_table_method(kb, query)
+        
+        print("Result:", result)
+        print("Details:", details)
+        
+        if result:
+            print(f"YES: {details}")
+        else:
+            print("NO")
+    else:
+        print("Invalid method")
+        sys.exit(1)
